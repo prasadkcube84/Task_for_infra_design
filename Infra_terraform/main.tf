@@ -2,25 +2,24 @@ provider "aws" {
   region = var.region
 }
 
-module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = var.cluster_name
-  cluster_version = "1.21"
-  subnets         = var.subnets
-  vpc_id          = var.vpc_id
-
-  worker_groups = [
-    {
-      instance_type = var.instance_type
-      asg_max_size  = 1
-    }
-  ]
+# Get the default VPC and subnets
+data "aws_vpc" "default" {
+  default = true
 }
 
-output "cluster_name" {
-  value = module.eks.cluster_id
+data "aws_subnet_ids" "default" {
+  vpc_id = data.aws_vpc.default.id
 }
 
-output "kubeconfig" {
-  value = module.eks.kubeconfig
+# Create the EKS cluster
+resource "aws_eks_cluster" "eks_cluster" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = "1.21"
+
+  vpc_config {
+    subnet_ids = data.aws_subnet_ids.default.ids
+  }
+
+  tags = var.tags
 }
