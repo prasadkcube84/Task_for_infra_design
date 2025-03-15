@@ -1,0 +1,24 @@
+# Task_for_infra_design
+
+1. AWS EKS created using Terraform IAC for more reference I added main.tf and varibale.tf file.
+   1. using default VPC and subnet created EKS 
+   2. Master node and worker node 
+
+
+2. EC2 SERVER  created for  automation deployment into EKS using Jenkins 
+   1. Ec2 server t2.medium 
+   2. jenkins hosted on this server.
+   3. config file added onn Cd ~/ .kube/ config  on this path 
+   4. kubernetes installed on jenkins host server 
+   5. verify nodes are able to access on EC2 host 'kubectl get nodes'
+   6. setup jenkins pipeline script added for more refernce.
+   7. whenever code commited into main branch jenkins trigger automatically using webhook and created docker image push to ECR then deployed into EKS.
+
+3. Created sample app in python for this app dockerfile created to build image which will accesiable in port 80.
+
+
+4. Created yaml files for deployment in EKS for more understanding  added code in file 
+   1. we have deployment.yaml, service.yaml, hpa.yaml, ingress.yaml files  are there 
+   2. deployment and service will deploy the app which we can access as loadbalancer 
+   3. hpa.yaml will autoscale the app if load increse it will auto scale and create replica of app to distiute load.
+   4. ingress.yaml this will help us to setup external access with on https service and path base setup.
