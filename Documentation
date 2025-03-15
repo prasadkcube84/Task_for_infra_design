@@ -1,6 +1,6 @@
 # Task_for_infra_design
 
-1. AWS EKS created using Terraform IAC for more reference I added main.tf and varibale.tf file.
+1. AWS EKS created using Terraform IAC for more reference I added main.tf, varibale.tf, iam.tf, output.tf, node_group.tf file.
    1. using default VPC and subnet created EKS 
    2. Master node and worker node 
 
